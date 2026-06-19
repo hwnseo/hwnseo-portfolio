@@ -113,7 +113,7 @@ a{color:inherit;text-decoration:none;}
   var PDF_URL='portfolio.pdf';
   var PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   /* ================ */
-  var doc=null,page=1,total=0,zoom=1,mode='single',rendering=false,pending=null,thumbsDone=false,cv,ctx,allObserver=null;
+  var doc=null,page=1,total=0,zoom=1,mode='single',rendering=false,pending=null,thumbsDone=false,cv,ctx,allObserver=null,pageRatio=0.5625;
   function el(id){return document.getElementById(id);}
   function isMobile(){return window.innerWidth<=640;}
   async function ensureDoc(){
@@ -121,6 +121,7 @@ a{color:inherit;text-decoration:none;}
     pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER;
     doc=await pdfjsLib.getDocument(PDF_URL).promise;
     total=doc.numPages; el('pvTot').textContent=total;
+    try{ var __p1=await doc.getPage(1); var __bv=__p1.getViewport({scale:1}); pageRatio=__bv.height/__bv.width; }catch(e){}
     buildThumbs();
     return doc;
   }
@@ -188,8 +189,10 @@ a{color:inherit;text-decoration:none;}
   }
   function buildAll(){
     var wrap=el('pvAllWrap'); wrap.innerHTML='';
+    var expH=Math.max(120, Math.round((el('pvStage').clientWidth-40)*pageRatio*zoom));
     for(var i=1;i<=total;i++){
       var d=document.createElement('div'); d.className='pv-pg'; d.dataset.pn=i; d.dataset.rendered='0';
+      d.style.minHeight=expH+'px';
       d.innerHTML='<span style="color:var(--ink-3);font-size:11px">페이지 '+i+'</span>'; wrap.appendChild(d);
     }
     if(allObserver) allObserver.disconnect();
@@ -231,7 +234,11 @@ a{color:inherit;text-decoration:none;}
     el('pvLoad').style.display=''; el('pvLoad').textContent='불러오는 중…';
     if(isMobile()) closeSide(); else openSide();
     zoom=1; el('pvZoom').textContent='100%';
-    try{ await ensureDoc(); page=Math.min(Math.max(1,sp||1),total); setMode('single'); }
+    try{ await ensureDoc(); page=Math.min(Math.max(1,sp||1),total); setMode('all'); el('pvNum').value=page; markActiveThumb();
+         var __tgt=page;
+         var __scroll=function(){ var st=el('pvStage'); var t=el('pvAllWrap').querySelector('[data-pn="'+__tgt+'"]'); if(!t)return; var d=t.getBoundingClientRect().top-st.getBoundingClientRect().top; st.scrollTop+=d-2; };
+         requestAnimationFrame(__scroll); setTimeout(__scroll,250); setTimeout(__scroll,700);
+         setTimeout(function(){__scroll(); page=__tgt; el('pvNum').value=__tgt; markActiveThumb();},1300); }
     catch(e){ el('pvLoad').style.display=''; el('pvLoad').innerHTML='PDF를 불러오지 못했어요.<br>portfolio.pdf가 같은 폴더에 있는지 확인해 주세요.'; }
   }
   function init(){
