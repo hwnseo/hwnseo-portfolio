@@ -61,6 +61,10 @@ a{color:inherit;text-decoration:none;}
   .pv-side{position:absolute;top:0;bottom:0;left:0;z-index:16;box-shadow:4px 0 16px rgba(0,0,0,.12);}
   .pv-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:15;}
   .pv-stage{padding:16px;}
+  .pv-bar{gap:6px;padding:8px 12px;}
+  .pv-zoom{display:none;}
+  .pv-seg button{padding:4px 9px;}
+  .pv-head{padding:10px 14px;}
 }
 </style>
 </head>
@@ -188,6 +192,7 @@ a{color:inherit;text-decoration:none;}
     if(isMobile()) closeSide();
   }
   function buildAll(){
+    el('pvLoad').style.display='none';
     var wrap=el('pvAllWrap'); wrap.innerHTML='';
     var expH=Math.max(120, Math.round((el('pvStage').clientWidth-40)*pageRatio*zoom));
     for(var i=1;i<=total;i++){
