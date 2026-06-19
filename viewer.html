@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>서혜원 · 포트폴리오</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<style>
+:root{
+  --bg:#fff;--bg-2:#F7F7F9;--ink:#18181B;--ink-2:#52525B;--ink-3:#A1A1AA;
+  --line:#ECECEF;--line-2:#E2E2E6;--accent:#0DAEF7;--accent-soft:#E4F6FE;--accent-text:#0791C9;
+  --radius:16px;--maxw:1080px;--gut:clamp(20px,5vw,48px);
+  --shadow:0 1px 2px rgba(24,24,27,.04),0 8px 24px rgba(24,24,27,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;background:var(--bg-2);color:var(--ink);-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+/* ===== PDF Viewer (light, matches site) ===== */
+.pv{height:100vh;display:flex;flex-direction:column;background:var(--bg-2);}
+.pv-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 18px;background:var(--bg);border-bottom:1px solid var(--line);flex-shrink:0;}
+.pv-brand{display:flex;align-items:center;gap:11px;min-width:0;}
+.pv-logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.pv-ttl{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-.01em;white-space:nowrap;}
+.pv-sub{font-size:11px;color:var(--ink-3);margin-bottom:1px;line-height:1;}
+.pv-headr{display:flex;align-items:center;gap:8px;}
+.pv-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:32px;padding:0 12px;font-size:12.5px;font-weight:500;font-family:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line-2);border-radius:8px;cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap;text-decoration:none;}
+.pv-btn:hover{background:var(--bg-2);}
+.pv-btn:disabled{opacity:.4;cursor:default;}
+.pv-btn.icon{width:32px;padding:0;font-size:15px;}
+.pv-btn.ghost{border-color:transparent;background:transparent;}
+.pv-btn.ghost:hover{background:var(--bg-2);}
+.pv-body{flex:1;display:flex;overflow:hidden;min-height:0;position:relative;}
+.pv-side{width:178px;border-right:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;flex-shrink:0;}
+.pv-side-h{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border-bottom:1px solid var(--line);flex-shrink:0;}
+.pv-side-h span{font-size:11.5px;font-weight:600;color:var(--ink);}
+.pv-thumbs{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:0;}
+.pv-thumb{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;border-radius:8px;background:transparent;border:1px solid transparent;cursor:pointer;transition:background .15s;font-family:inherit;}
+.pv-thumb:hover{background:var(--bg-2);}
+.pv-thumb.active{background:var(--accent-soft);border-color:var(--accent);}
+.pv-thumb-img{width:100%;background:#fff;border:1px solid var(--line);border-radius:4px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;}
+.pv-thumb-img img{width:100%;height:auto;display:block;}
+.pv-thumb-n{font-size:11px;color:var(--ink-3);}
+.pv-thumb.active .pv-thumb-n{color:var(--accent-text);font-weight:600;}
+.pv-main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.pv-bar{display:flex;align-items:center;gap:8px;padding:9px 16px;background:var(--bg);border-bottom:1px solid var(--line);flex-shrink:0;flex-wrap:wrap;}
+.pv-seg{display:flex;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:2px;}
+.pv-seg button{padding:4px 11px;font-size:12px;font-weight:500;font-family:inherit;border:none;border-radius:6px;background:transparent;color:var(--ink-3);cursor:pointer;}
+.pv-seg button.on{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06);}
+.pv-pageinp{width:46px;height:28px;padding:0 6px;font-size:12.5px;text-align:center;font-family:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line-2);border-radius:7px;outline:none;}
+.pv-pageinp:focus{border-color:var(--accent);}
+.pv-divx{width:1px;height:20px;background:var(--line-2);margin:0 2px;}
+.pv-tot{font-size:12.5px;color:var(--ink-3);}
+.pv-zoom{font-size:12.5px;color:var(--ink-3);min-width:42px;text-align:center;}
+.pv-stage{flex:1;overflow:auto;padding:30px;text-align:center;-webkit-overflow-scrolling:touch;}
+.pv-stage canvas{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08),0 6px 22px rgba(0,0,0,.06);border-radius:6px;display:block;margin:0 auto;max-width:100%;}
+.pv-all{display:inline-flex;flex-direction:column;gap:18px;max-width:100%;text-align:left;}
+.pv-all .pv-pg{min-height:160px;display:flex;align-items:center;justify-content:center;}
+.pv-load{color:var(--ink-3);font-size:13px;margin-top:14vh;}
+@media(max-width:640px){
+  .pv-ttl-full{display:none;}
+  .pv-side{position:absolute;top:0;bottom:0;left:0;z-index:16;box-shadow:4px 0 16px rgba(0,0,0,.12);}
+  .pv-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:15;}
+  .pv-stage{padding:16px;}
+}
+</style>
+</head>
+<body>
+<div id="pv" class="pv">
+  <div class="pv-head">
+    <a class="pv-brand" href="./" title="포트폴리오로" style="cursor:pointer">
+      <div class="pv-logo">H</div>
+      <div style="min-width:0"><div class="pv-sub">Hyewon Seo</div><div class="pv-ttl"><span class="pv-ttl-full">혜원 · </span>포트폴리오</div></div>
+    </a>
+    <div class="pv-headr">
+      <a class="pv-btn" id="pvDl" href="portfolio.pdf" download>다운로드</a>
+      <a class="pv-btn icon" href="./" aria-label="포트폴리오로" title="포트폴리오로">&#10005;</a>
+    </div>
+  </div>
+  <div class="pv-body">
+    <div class="pv-backdrop" id="pvBackdrop" style="display:none"></div>
+    <aside class="pv-side" id="pvSide">
+      <div class="pv-side-h"><span>페이지</span><button class="pv-btn ghost" id="pvHide" style="height:24px;padding:0 8px;font-size:11px">숨기기</button></div>
+      <div class="pv-thumbs" id="pvThumbs"></div>
+    </aside>
+    <main class="pv-main">
+      <div class="pv-bar">
+        <button class="pv-btn ghost" id="pvShow" style="display:none">페이지 목록</button>
+        <div class="pv-seg"><button id="pvSingle" class="on">한 페이지</button><button id="pvAll">전체보기</button></div>
+        <div class="pv-divx" id="pvNavDiv"></div>
+        <div id="pvNav" style="display:flex;align-items:center;gap:6px">
+          <button class="pv-btn icon" id="pvPrev" aria-label="이전">&#8592;</button>
+          <input class="pv-pageinp" id="pvNum" type="text" inputmode="numeric" value="1" aria-label="페이지">
+          <span class="pv-tot">/ <span id="pvTot">&ndash;</span></span>
+          <button class="pv-btn icon" id="pvNext" aria-label="다음">&#8594;</button>
+        </div>
+        <div style="flex:1"></div>
+        <button class="pv-btn icon" id="pvZout" aria-label="축소">&minus;</button>
+        <span class="pv-zoom" id="pvZoom">100%</span>
+        <button class="pv-btn icon" id="pvZin" aria-label="확대">&#43;</button>
+      </div>
+      <div class="pv-stage" id="pvStage">
+        <div class="pv-load" id="pvLoad">불러오는 중&hellip;</div>
+        <canvas id="pvCanvas" style="display:none"></canvas>
+        <div class="pv-all" id="pvAllWrap" style="display:none"></div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function(){
+  /* ===== 설정 ===== */
+  var PDF_URL='portfolio.pdf';
+  var PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  /* ================ */
+  var doc=null,page=1,total=0,zoom=1,mode='single',rendering=false,pending=null,thumbsDone=false,cv,ctx,allObserver=null;
+  function el(id){return document.getElementById(id);}
+  function isMobile(){return window.innerWidth<=640;}
+  async function ensureDoc(){
+    if(doc)return doc;
+    pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER;
+    doc=await pdfjsLib.getDocument(PDF_URL).promise;
+    total=doc.numPages; el('pvTot').textContent=total;
+    buildThumbs();
+    return doc;
+  }
+  function fitScale(p){
+    var base=p.getViewport({scale:1});
+    var stage=el('pvStage');
+    var pad=(mode==='all'?40:64);
+    var byW=(stage.clientWidth-pad)/base.width;
+    if(mode==='single' && base.height>base.width){
+      var candH=base.height*byW;
+      if(candH>stage.clientHeight-64) return (stage.clientHeight-64)/base.height;
+    }
+    return Math.max(0.3, byW);
+  }
+  async function renderSingle(n){
+    if(!doc)return;
+    n=Math.min(Math.max(1,n),total);
+    if(rendering){pending=n;return;}
+    rendering=true;
+    var p=await doc.getPage(n);
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var s=fitScale(p)*zoom;
+    var vp=p.getViewport({scale:s*dpr});
+    cv.width=vp.width;cv.height=vp.height;
+    cv.style.width=(vp.width/dpr)+'px';cv.style.height=(vp.height/dpr)+'px';
+    await p.render({canvasContext:ctx,viewport:vp}).promise;
+    page=n; el('pvNum').value=n;
+    el('pvPrev').disabled=(n<=1);el('pvNext').disabled=(n>=total);
+    el('pvLoad').style.display='none';cv.style.display='block';
+    markActiveThumb();
+    rendering=false;
+    if(pending!=null){var q=pending;pending=null;renderSingle(q);}
+  }
+  async function buildThumbs(){
+    if(thumbsDone)return; thumbsDone=true;
+    var wrap=el('pvThumbs'); wrap.innerHTML=''; var btns=[];
+    for(var i=1;i<=total;i++){
+      var b=document.createElement('button'); b.className='pv-thumb'; b.dataset.n=i;
+      b.innerHTML='<div class="pv-thumb-img"></div><span class="pv-thumb-n">'+i+'</span>';
+      (function(n){b.onclick=function(){goPage(n);};})(i);
+      wrap.appendChild(b); btns.push(b);
+    }
+    markActiveThumb();
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    for(var j=1;j<=total;j++){
+      try{
+        var p=await doc.getPage(j);
+        var vp=p.getViewport({scale:0.34});
+        var c=document.createElement('canvas'); c.width=vp.width*dpr;c.height=vp.height*dpr;
+        await p.render({canvasContext:c.getContext('2d'),viewport:vp,transform:dpr!==1?[dpr,0,0,dpr,0,0]:undefined}).promise;
+        var img=new Image(); img.src=c.toDataURL('image/jpeg',0.7);
+        var holder=btns[j-1].querySelector('.pv-thumb-img'); holder.innerHTML=''; holder.appendChild(img);
+      }catch(e){}
+    }
+  }
+  function markActiveThumb(){
+    document.querySelectorAll('.pv-thumb').forEach(function(t){ t.classList.toggle('active', parseInt(t.dataset.n)===page); });
+    var a=document.querySelector('.pv-thumb.active'); if(a) a.scrollIntoView({block:'nearest'});
+  }
+  function goPage(n){
+    page=Math.min(Math.max(1,n),total); el('pvNum').value=page;
+    if(mode==='single') renderSingle(page);
+    else { var pg=el('pvAllWrap').querySelector('[data-pn="'+page+'"]'); if(pg) pg.scrollIntoView({behavior:'smooth',block:'start'}); markActiveThumb(); }
+    if(isMobile()) closeSide();
+  }
+  function buildAll(){
+    var wrap=el('pvAllWrap'); wrap.innerHTML='';
+    for(var i=1;i<=total;i++){
+      var d=document.createElement('div'); d.className='pv-pg'; d.dataset.pn=i; d.dataset.rendered='0';
+      d.innerHTML='<span style="color:var(--ink-3);font-size:11px">페이지 '+i+'</span>'; wrap.appendChild(d);
+    }
+    if(allObserver) allObserver.disconnect();
+    allObserver=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ var n=parseInt(e.target.dataset.pn); renderAllPage(n); page=n; el('pvNum').value=n; markActiveThumb(); } });
+    },{root:el('pvStage'),rootMargin:'300px 0px',threshold:0.01});
+    wrap.querySelectorAll('.pv-pg').forEach(function(p){allObserver.observe(p);});
+    renderAllPage(Math.min(page,total)); if(page+1<=total) renderAllPage(page+1);
+  }
+  async function renderAllPage(n){
+    var d=el('pvAllWrap').querySelector('[data-pn="'+n+'"]'); if(!d||d.dataset.rendered==='1')return;
+    d.dataset.rendered='1';
+    try{
+      var p=await doc.getPage(n);
+      var dpr=Math.min(window.devicePixelRatio||1,2);
+      var s=fitScale(p)*zoom;
+      var vp=p.getViewport({scale:s*dpr});
+      var c=document.createElement('canvas'); c.width=vp.width;c.height=vp.height;
+      c.style.width=(vp.width/dpr)+'px';c.style.height=(vp.height/dpr)+'px';
+      await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+      d.innerHTML=''; d.appendChild(c);
+    }catch(e){ d.dataset.rendered='0'; }
+  }
+  function setMode(m){
+    mode=m;
+    el('pvSingle').classList.toggle('on',m==='single');
+    el('pvAll').classList.toggle('on',m==='all');
+    el('pvNav').style.display=(m==='single'?'flex':'none');
+    el('pvNavDiv').style.display=(m==='single'?'block':'none');
+    if(m==='single'){ el('pvAllWrap').style.display='none'; cv.style.display='block'; renderSingle(page); }
+    else { cv.style.display='none'; el('pvAllWrap').style.display='inline-flex'; buildAll(); }
+  }
+  function applyZoom(){ el('pvZoom').textContent=Math.round(zoom*100)+'%'; if(mode==='single') renderSingle(page); else buildAll(); }
+  function openSide(){ el('pvSide').style.display='flex'; el('pvShow').style.display='none'; el('pvBackdrop').style.display=isMobile()?'block':'none'; }
+  function closeSide(){ el('pvSide').style.display='none'; el('pvShow').style.display='inline-flex'; el('pvBackdrop').style.display='none'; }
+  async function start(sp){
+    cv=el('pvCanvas'); ctx=cv.getContext('2d');
+    el('pvDl').setAttribute('href',PDF_URL);
+    el('pvLoad').style.display=''; el('pvLoad').textContent='불러오는 중…';
+    if(isMobile()) closeSide(); else openSide();
+    zoom=1; el('pvZoom').textContent='100%';
+    try{ await ensureDoc(); page=Math.min(Math.max(1,sp||1),total); setMode('single'); }
+    catch(e){ el('pvLoad').style.display=''; el('pvLoad').innerHTML='PDF를 불러오지 못했어요.<br>portfolio.pdf가 같은 폴더에 있는지 확인해 주세요.'; }
+  }
+  function init(){
+    el('pvHide').onclick=closeSide; el('pvShow').onclick=openSide; el('pvBackdrop').onclick=closeSide;
+    el('pvSingle').onclick=function(){setMode('single');};
+    el('pvAll').onclick=function(){setMode('all');};
+    el('pvPrev').onclick=function(){goPage(page-1);};
+    el('pvNext').onclick=function(){goPage(page+1);};
+    el('pvNum').addEventListener('keydown',function(e){ if(e.key==='Enter'){var v=parseInt(this.value,10); if(!isNaN(v))goPage(v); this.blur();}});
+    el('pvZin').onclick=function(){zoom=Math.min(3,Math.round((zoom+0.2)*10)/10);applyZoom();};
+    el('pvZout').onclick=function(){zoom=Math.max(0.5,Math.round((zoom-0.2)*10)/10);applyZoom();};
+    document.addEventListener('keydown',function(e){
+      if(!el('pv').classList.contains('open'))return;
+      if(e.key==='Escape')location.href='./';
+      else if(mode==='single'){ if(e.key==='ArrowLeft')goPage(page-1); else if(e.key==='ArrowRight')goPage(page+1); }
+    });
+    var rt; window.addEventListener('resize',function(){ if(!el('pv').classList.contains('open'))return; clearTimeout(rt); rt=setTimeout(function(){ if(mode==='single')renderSingle(page); else buildAll(); },180); });
+  }
+  var __sp=parseInt(new URLSearchParams(location.search).get('p'),10); if(isNaN(__sp))__sp=1; function __boot(){init();start(__sp);} if(document.readyState!=='loading') __boot(); else document.addEventListener('DOMContentLoaded',__boot);
+})();
+</script>
+</body>
+</html>
