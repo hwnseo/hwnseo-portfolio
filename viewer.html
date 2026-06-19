@@ -150,7 +150,7 @@ a{color:inherit;text-decoration:none;}
     var s=fitScale(p)*zoom;
     var vp=p.getViewport({scale:s*dpr});
     cv.width=vp.width;cv.height=vp.height;
-    cv.style.width=(vp.width/dpr)+'px';cv.style.height=(vp.height/dpr)+'px';
+    cv.style.width=(vp.width/dpr)+'px';cv.style.height='auto';
     await p.render({canvasContext:ctx,viewport:vp}).promise;
     page=n; el('pvNum').value=n;
     el('pvPrev').disabled=(n<=1);el('pvNext').disabled=(n>=total);
@@ -216,7 +216,7 @@ a{color:inherit;text-decoration:none;}
       var s=fitScale(p)*zoom;
       var vp=p.getViewport({scale:s*dpr});
       var c=document.createElement('canvas'); c.width=vp.width;c.height=vp.height;
-      c.style.width=(vp.width/dpr)+'px';c.style.height=(vp.height/dpr)+'px';
+      c.style.width=(vp.width/dpr)+'px';c.style.height='auto';
       await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
       d.innerHTML=''; d.appendChild(c);
     }catch(e){ d.dataset.rendered='0'; }
